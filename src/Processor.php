@@ -45,7 +45,7 @@ class Processor
 
         $request = new Request(
             'get',
-            $this->getPath('/provider/batch'),
+            $this->getPath('/notification/batch'),
             ['Content-Type' => 'application/json'],
             $body
         );

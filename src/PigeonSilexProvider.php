@@ -10,7 +10,7 @@ use Silex\ServiceProviderInterface;
  *
  * @package Pigeon
  */
-class PigeonServiceProvider implements ServiceProviderInterface
+class PigeonSilexProvider implements ServiceProviderInterface
 {
     /**
      * @param Application $app
