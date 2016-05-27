@@ -20,6 +20,7 @@ class Processor
      * Processor constructor.
      *
      * @param $endpoint
+     *
      * @throws \Exception
      */
     public function __construct($endpoint)
@@ -44,10 +45,10 @@ class Processor
         $client = new GuzzleClient();
 
         $request = new Request(
-            'get',
+            'post',
             $this->getPath('/notification/batch'),
             ['Content-Type' => 'application/json'],
-            $body
+            json_encode($body)
         );
 
         $response = $this->send($client, $request);
@@ -67,9 +68,8 @@ class Processor
             $response = $client->send($request);
             return $response->getBody();
         } catch (GuzzleClientException $e) {
-            throw new \Exception(
-                'Something bad happened with pigeon service', 0, $e
-            );
+            $message = $this->formatErrorMessage($e);
+            throw new \Exception(json_encode($message), 0, $e);
         }
     }
 
@@ -81,5 +81,24 @@ class Processor
     protected function getPath($path)
     {
         return $this->endpoint . $path;
+    }
+
+    protected function formatErrorMessage($httpException)
+    {
+        $message = [
+            'message'  => 'Something bad happened with pingeon service',
+            'request'  => [
+                'headers' => $httpException->getRequest()->getHeaders(),
+                'body'    => $httpException->getRequest()->getBody()
+            ],
+            'response' => [
+                'headers' => $httpException->getResponse()->getHeaders(),
+                'body'    => $httpException->getResponse()->getBody()
+                    ->getContents(),
+                'status'  => $httpException->getResponse()->getStatusCode()
+            ]
+        ];
+
+        return $message;
     }
 }
