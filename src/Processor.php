@@ -55,6 +55,88 @@ class Processor
         return json_decode($response->getContents());
     }
 
+    public function registerEmail($recipientId, $address)
+    {
+        $client = new GuzzleClient();
+        $request = new Request(
+            'post',
+            $this->getPath(
+                sprintf(
+                    '/recipients/%s/profiles/email',
+                    $recipientId
+                )
+            ),
+            ['Content-Type' => 'application/json'],
+            json_encode(['address' => $address])
+        );
+
+        $response = $this->send($client, $request);
+        return json_decode($response->getContents());
+    }
+
+    public function unRegisterEmail($recipientId)
+    {
+        $client = new GuzzleClient();
+        $request = new Request(
+            'delete',
+            $this->getPath(
+                sprintf(
+                    '/recipients/%s/profiles/email',
+                    $recipientId
+                )
+            ),
+            ['Content-Type' => 'application/json']
+        );
+
+        $response = $this->send($client, $request);
+        return json_decode($response->getContents());
+    }
+
+    public function registerDevice($recipientId, $deviceId, $deviceToken,
+        $platform
+    ) {
+        $client = new GuzzleClient();
+        $request = new Request(
+            'post',
+            $this->getPath(
+                sprintf(
+                    '/recipients/%s/profiles/push/register',
+                    $recipientId
+                )
+            ),
+            ['Content-Type' => 'application/json'],
+            json_encode(
+                [
+                    'deviceId' => $deviceId,
+                    'token'    => $deviceToken,
+                    'platform' => $platform
+                ]
+            )
+        );
+
+        $response = $this->send($client, $request);
+        return json_decode($response->getContents());
+    }
+
+    public function unRegisterDevice($recipientId, $deviceId)
+    {
+        $client = new GuzzleClient();
+        $request = new Request(
+            'post',
+            $this->getPath(
+                sprintf(
+                    '/recipients/%s/profiles/push/unregister',
+                    $recipientId
+                )
+            ),
+            ['Content-Type' => 'application/json'],
+            json_encode(['deviceId' => $deviceId])
+        );
+
+        $response = $this->send($client, $request);
+        return json_decode($response->getContents());
+    }
+
     /**
      * @param GuzzleClient $client
      * @param Request      $request
