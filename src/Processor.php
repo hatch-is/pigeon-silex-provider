@@ -74,6 +74,28 @@ class Processor
         return json_decode($response->getContents());
     }
 
+    public function sendEmailToRecipient($recipientId, $templateName,
+        $templateVars
+    ) {
+        $client = new GuzzleClient();
+
+        $request = new Request(
+            'post',
+            $this->getPath('/provider/email/recipient'),
+            ['Content-Type' => 'application/json'],
+            json_encode(
+                [
+                    'recipientID' => $recipientId,
+                    'template'    => $templateName,
+                    'vars'        => $templateVars
+                ]
+            )
+        );
+
+        $response = $this->send($client, $request);
+        return json_decode($response->getContents());
+    }
+
     public function unRegisterEmail($recipientId)
     {
         $client = new GuzzleClient();
