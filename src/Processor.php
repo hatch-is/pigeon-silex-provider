@@ -55,6 +55,21 @@ class Processor
         return json_decode($response->getContents());
     }
 
+    public function providerPubsub($body)
+    {
+        $client = new GuzzleClient();
+
+        $request = new Request(
+            'post',
+            $this->getPath('/provider/pubsub/channel'),
+            ['Content-Type' => 'application/json'],
+            json_encode($body)
+        );
+
+        $response = $this->send($client, $request);
+        return json_decode($response->getContents());
+    }
+
     public function registerEmail($recipientId, $address)
     {
         $client = new GuzzleClient();
