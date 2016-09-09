@@ -111,6 +111,20 @@ class Processor
         return json_decode($response->getContents());
     }
 
+    public function sendBatchEmails($body) {
+        $client = new GuzzleClient();
+
+        $request = new Request(
+            'post',
+            $this->getPath('/provider/email/recipient/batch'),
+            ['Content-Type' => 'application/json'],
+            json_encode($body)
+        );
+
+        $response = $this->send($client, $request);
+        return json_decode($response->getContents());
+    }
+
     public function updateRecipient($recipientId, $firstName, $lastName)
     {
 
