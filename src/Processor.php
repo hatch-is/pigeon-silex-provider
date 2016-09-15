@@ -52,7 +52,7 @@ class Processor
         );
 
         $response = $this->send($client, $request);
-        return json_decode($response->getContents());
+        return json_decode($response->getContents(), true);
     }
 
     public function providerPubsub($body)
@@ -67,7 +67,7 @@ class Processor
         );
 
         $response = $this->send($client, $request);
-        return json_decode($response->getContents());
+        return json_decode($response->getContents(), true);
     }
 
     public function registerEmail($recipientId, $address)
@@ -86,7 +86,7 @@ class Processor
         );
 
         $response = $this->send($client, $request);
-        return json_decode($response->getContents());
+        return json_decode($response->getContents(), true);
     }
 
     public function sendEmailToAddress($body) {
@@ -100,7 +100,7 @@ class Processor
         );
 
         $response = $this->send($client, $request);
-        return json_decode($response->getContents());
+        return json_decode($response->getContents(), true);
     }
 
     public function sendEmailToRecipient($body) {
@@ -114,7 +114,7 @@ class Processor
         );
 
         $response = $this->send($client, $request);
-        return json_decode($response->getContents());
+        return json_decode($response->getContents(), true);
     }
 
     public function sendBatchEmails($body)
@@ -129,7 +129,7 @@ class Processor
         );
 
         $response = $this->send($client, $request);
-        return json_decode($response->getContents());
+        return json_decode($response->getContents(), true);
     }
 
     public function updateRecipient($recipientId, $firstName, $lastName)
@@ -152,7 +152,7 @@ class Processor
         );
 
         $response = $this->send($client, $request);
-        return json_decode($response->getContents());
+        return json_decode($response->getContents(), true);
     }
 
     public function unRegisterEmail($recipientId)
@@ -170,7 +170,7 @@ class Processor
         );
 
         $response = $this->send($client, $request);
-        return json_decode($response->getContents());
+        return json_decode($response->getContents(), true);
     }
 
     public function registerDevice($recipientId, $deviceId, $deviceToken,
@@ -196,7 +196,7 @@ class Processor
         );
 
         $response = $this->send($client, $request);
-        return json_decode($response->getContents());
+        return json_decode($response->getContents(), true);
     }
 
     public function unRegisterDevice($recipientId, $deviceId)
@@ -215,7 +215,7 @@ class Processor
         );
 
         $response = $this->send($client, $request);
-        return json_decode($response->getContents());
+        return json_decode($response->getContents(), true);
     }
 
     /**
