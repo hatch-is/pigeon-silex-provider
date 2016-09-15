@@ -89,29 +89,36 @@ class Processor
         return json_decode($response->getContents());
     }
 
-    public function sendEmailToRecipient($recipientId, $templateName,
-        $templateVars
-    ) {
+    public function sendEmailToAddress($body) {
         $client = new GuzzleClient();
 
         $request = new Request(
             'post',
-            $this->getPath('/provider/email/recipient'),
+            $this->getPath('/provider/email/address'),
             ['Content-Type' => 'application/json'],
-            json_encode(
-                [
-                    'recipientID' => $recipientId,
-                    'template'    => $templateName,
-                    'vars'        => $templateVars
-                ]
-            )
+            json_encode($body)
         );
 
         $response = $this->send($client, $request);
         return json_decode($response->getContents());
     }
 
-    public function sendBatchEmails($body) {
+    public function sendEmailToRecipient($body) {
+        $client = new GuzzleClient();
+
+        $request = new Request(
+            'post',
+            $this->getPath('/provider/email/recipient'),
+            ['Content-Type' => 'application/json'],
+            json_encode($body)
+        );
+
+        $response = $this->send($client, $request);
+        return json_decode($response->getContents());
+    }
+
+    public function sendBatchEmails($body)
+    {
         $client = new GuzzleClient();
 
         $request = new Request(
@@ -143,7 +150,7 @@ class Processor
                 ]
             )
         );
-        
+
         $response = $this->send($client, $request);
         return json_decode($response->getContents());
     }
