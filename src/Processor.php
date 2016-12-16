@@ -89,7 +89,8 @@ class Processor
         return json_decode($response->getContents(), true);
     }
 
-    public function sendEmailToAddress($body) {
+    public function sendEmailToAddress($body)
+    {
         $client = new GuzzleClient();
 
         $request = new Request(
@@ -103,7 +104,8 @@ class Processor
         return json_decode($response->getContents(), true);
     }
 
-    public function sendEmailToRecipient($body) {
+    public function sendEmailToRecipient($body)
+    {
         $client = new GuzzleClient();
 
         $request = new Request(
@@ -174,8 +176,17 @@ class Processor
     }
 
     public function registerDevice($recipientId, $deviceId, $deviceToken,
-        $platform
+        $platform, $app = null
     ) {
+        $body = [
+            'deviceId' => $deviceId,
+            'token'    => $deviceToken,
+            'platform' => $platform
+        ];
+        if (!empty($app)) {
+            $body['app'] = $app;
+        }
+
         $client = new GuzzleClient();
         $request = new Request(
             'post',
@@ -186,21 +197,21 @@ class Processor
                 )
             ),
             ['Content-Type' => 'application/json'],
-            json_encode(
-                [
-                    'deviceId' => $deviceId,
-                    'token'    => $deviceToken,
-                    'platform' => $platform
-                ]
-            )
+            json_encode($body)
         );
 
         $response = $this->send($client, $request);
         return json_decode($response->getContents(), true);
     }
 
-    public function unRegisterDevice($recipientId, $deviceId)
+    public function unRegisterDevice($recipientId, $deviceId, $app = null)
     {
+        $body = [
+            'deviceId' => $deviceId
+        ];
+        if(!empty($app)) {
+            $body['app'] = $app;
+        }
         $client = new GuzzleClient();
         $request = new Request(
             'post',
@@ -211,7 +222,7 @@ class Processor
                 )
             ),
             ['Content-Type' => 'application/json'],
-            json_encode(['deviceId' => $deviceId])
+            json_encode($body)
         );
 
         $response = $this->send($client, $request);
