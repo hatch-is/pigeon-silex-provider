@@ -176,14 +176,17 @@ class Processor
     }
 
     public function registerDevice($recipientId, $deviceId, $deviceToken,
-        $platform, $app
+        $platform, $app = null
     ) {
         $body = [
             'deviceId' => $deviceId,
             'token'    => $deviceToken,
             'platform' => $platform
         ];
-        $body['app'] = empty($app)?['name' => 'Enterprise'] : $app;
+
+        if(!empty($app)) {
+            $body['app'] = $app;
+        }
 
         $client = new GuzzleClient();
         $request = new Request(
