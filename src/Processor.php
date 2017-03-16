@@ -40,14 +40,17 @@ class Processor
      * @return mixed
      * @throws \Exception
      */
-    public function providerBatch($body)
+    public function providerBatch($body, $locationGroup)
     {
         $client = new GuzzleClient();
 
         $request = new Request(
             'post',
             $this->getPath('/notification/batch'),
-            ['Content-Type' => 'application/json'],
+            [
+                'Content-Type' => 'application/json',
+                'x-location-group' => $locationGroup
+            ],
             json_encode($body)
         );
 
@@ -55,14 +58,17 @@ class Processor
         return json_decode($response->getContents(), true);
     }
 
-    public function providerPubsub($body)
+    public function providerPubsub($body, $locationGroup)
     {
         $client = new GuzzleClient();
 
         $request = new Request(
             'post',
             $this->getPath('/provider/pubsub/channel'),
-            ['Content-Type' => 'application/json'],
+            [
+                'Content-Type' => 'application/json',
+                'x-location-group' => $locationGroup
+            ],
             json_encode($body)
         );
 
@@ -70,7 +76,7 @@ class Processor
         return json_decode($response->getContents(), true);
     }
 
-    public function registerEmail($recipientId, $address)
+    public function registerEmail($recipientId, $address, $locationGroup)
     {
         $client = new GuzzleClient();
         $request = new Request(
@@ -81,7 +87,10 @@ class Processor
                     $recipientId
                 )
             ),
-            ['Content-Type' => 'application/json'],
+            [
+                'Content-Type' => 'application/json',
+                'x-location-group' => $locationGroup
+            ],
             json_encode(['address' => $address])
         );
 
@@ -89,14 +98,17 @@ class Processor
         return json_decode($response->getContents(), true);
     }
 
-    public function sendEmailToAddress($body)
+    public function sendEmailToAddress($body, $locationGroup)
     {
         $client = new GuzzleClient();
 
         $request = new Request(
             'post',
             $this->getPath('/provider/email/address'),
-            ['Content-Type' => 'application/json'],
+            [
+                'Content-Type' => 'application/json',
+                'x-location-group' => $locationGroup
+            ],
             json_encode($body)
         );
 
@@ -104,14 +116,17 @@ class Processor
         return json_decode($response->getContents(), true);
     }
 
-    public function sendEmailToRecipient($body)
+    public function sendEmailToRecipient($body, $locationGroup)
     {
         $client = new GuzzleClient();
 
         $request = new Request(
             'post',
             $this->getPath('/provider/email/recipient'),
-            ['Content-Type' => 'application/json'],
+            [
+                'Content-Type' => 'application/json',
+                'x-location-group' => $locationGroup
+            ],
             json_encode($body)
         );
 
@@ -119,14 +134,17 @@ class Processor
         return json_decode($response->getContents(), true);
     }
 
-    public function sendBatchEmails($body)
+    public function sendBatchEmails($body, $locationGroup)
     {
         $client = new GuzzleClient();
 
         $request = new Request(
             'post',
             $this->getPath('/provider/email/recipient/batch'),
-            ['Content-Type' => 'application/json'],
+            [
+                'Content-Type' => 'application/json',
+                'x-location-group' => $locationGroup
+            ],
             json_encode($body)
         );
 
@@ -134,7 +152,7 @@ class Processor
         return json_decode($response->getContents(), true);
     }
 
-    public function updateRecipient($recipientId, $firstName, $lastName)
+    public function updateRecipient($recipientId, $firstName, $lastName, $locationGroup)
     {
 
         $client = new GuzzleClient();
@@ -143,7 +161,10 @@ class Processor
             'post',
 
             $this->getPath('/recipients'),
-            ['Content-Type' => 'application/json'],
+            [
+                'Content-Type' => 'application/json',
+                'x-location-group' => $locationGroup
+            ],
             json_encode(
                 [
                     'id'        => $recipientId,
@@ -157,7 +178,7 @@ class Processor
         return json_decode($response->getContents(), true);
     }
 
-    public function unRegisterEmail($recipientId)
+    public function unRegisterEmail($recipientId, $locationGroup)
     {
         $client = new GuzzleClient();
         $request = new Request(
@@ -168,7 +189,10 @@ class Processor
                     $recipientId
                 )
             ),
-            ['Content-Type' => 'application/json']
+            [
+                'Content-Type' => 'application/json',
+                'x-location-group' => $locationGroup
+            ]
         );
 
         $response = $this->send($client, $request);
@@ -176,7 +200,7 @@ class Processor
     }
 
     public function registerDevice($recipientId, $deviceId, $deviceToken,
-        $platform, $app = null
+        $platform, $app = null, $locationGroup
     ) {
         $body = [
             'deviceId' => $deviceId,
@@ -197,7 +221,10 @@ class Processor
                     $recipientId
                 )
             ),
-            ['Content-Type' => 'application/json'],
+            [
+                'Content-Type' => 'application/json',
+                'x-location-group' => $locationGroup
+            ],
             json_encode($body)
         );
 
@@ -205,7 +232,7 @@ class Processor
         return json_decode($response->getContents(), true);
     }
 
-    public function unRegisterDevice($recipientId, $deviceId, $app = null)
+    public function unRegisterDevice($recipientId, $deviceId, $app = null, $locationGroup)
     {
         $body = [
             'deviceId' => $deviceId
@@ -222,7 +249,10 @@ class Processor
                     $recipientId
                 )
             ),
-            ['Content-Type' => 'application/json'],
+            [
+                'Content-Type' => 'application/json',
+                'x-location-group' => $locationGroup
+            ],
             json_encode($body)
         );
 
